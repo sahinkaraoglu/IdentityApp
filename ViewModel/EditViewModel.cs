@@ -9,11 +9,11 @@ namespace IdentityApp.ViewModel
     public class EditViewModel
     {
 
-        public string? Id { get; set; } 
-        public string? FullName { get; set; } 
+        public string? Id { get; set; }
+        public string? FullName { get; set; }
 
         [EmailAddress]
-        public string? Email { get; set; } 
+        public string? Email { get; set; }
 
 
         [DataType(DataType.Password)]
