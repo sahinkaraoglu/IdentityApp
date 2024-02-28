@@ -8,15 +8,19 @@ using IdentityApp.ViewModel;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.EntityFrameworkCore;
 
 namespace IdentityApp.Controllers
 {
     public class UsersController : Controller
     {
         private UserManager<AppUser> _userManager;
-        public UsersController(UserManager<AppUser> userManager)
+        private RoleManager<AppRole> _roleManager;
+
+        public UsersController(UserManager<AppUser> userManager, RoleManager<AppRole> roleManager)
         {
             _userManager = userManager;
+            _roleManager = roleManager;
         }
 
         public IActionResult Index()
@@ -62,12 +66,14 @@ namespace IdentityApp.Controllers
 
             if (user != null)
             {
+                ViewBag.Roles = await _roleManager.Roles.Select(i => i.Name).ToListAsync();
 
                 return View(new EditViewModel
                 {
                     Id = user.Id,
                     FullName = user.FullName,
-                    Email = user.Email
+                    Email = user.Email,
+                    SelectedRoles = await _userManager.GetRolesAsync(user)
                 });
             }
 
@@ -115,12 +121,12 @@ namespace IdentityApp.Controllers
             return View(model);
         }
 
-         [HttpPost]
+        [HttpPost]
         public async Task<IActionResult> Delete(string id)
         {
             var user = await _userManager.FindByIdAsync(id);
 
-            if(user != null)
+            if (user != null)
             {
                 await _userManager.DeleteAsync(user);
             }
