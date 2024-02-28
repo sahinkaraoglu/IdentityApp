@@ -18,7 +18,7 @@ namespace IdentityApp.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            return View(_roleManager.Roles);
         }
 
         public IActionResult Create()
