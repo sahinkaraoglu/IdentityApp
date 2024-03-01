@@ -26,7 +26,7 @@ builder.Services.Configure<IdentityOptions>(options =>
     // options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyz"; 
 
     options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
-    options.Lockout.MaxFailedAccessAttempts = 5;
+    //options.Lockout.MaxFailedAccessAttempts = 5;
 });
 
 builder.Services.ConfigureApplicationCookie(options =>{
